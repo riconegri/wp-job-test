@@ -184,18 +184,19 @@ class Woo_Account_Tab_Foo {
                 'enqueue_scripts'
             );
 
-            $this->loader->add_action(
-                'wp_ajax_nopriv_um_cb',
-                $plugin_public,
-                'modifications_callback'
-            );
-
-            $this->loader->add_action(
-                'wp_ajax_um_cb',
-                $plugin_public,
-                'modifications_callback'
-            );
         }
+
+        $this->loader->add_action(
+            'wp_ajax_nopriv_woo_foo',
+            $plugin_public,
+            'modifications_callback'
+        );
+
+        $this->loader->add_action(
+            'wp_ajax_woo_foo',
+            $plugin_public,
+            'modifications_callback'
+        );
 
         $this->loader->add_action('init', $plugin_public, 'custom_endpoint');
         $this->loader->add_action(
@@ -204,11 +205,11 @@ class Woo_Account_Tab_Foo {
             'custom_endpoint_content'
         );
 
-        $page_name = trim($_SERVER["REQUEST_URI"], '/');
+/*        $page_name = trim($_SERVER["REQUEST_URI"], '/');
         if (strpos($page_name, 'user-extra-info') > 0) {
             $this->loader->add_action('init', $plugin_public, 'account_tab');
-            add_action('init', 'woo_account_tab');
-        }
+//            add_action('init', 'woo_account_tab');
+        }*/
 
         $this->loader->add_action(
             'widgets_init',

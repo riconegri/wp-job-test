@@ -88,7 +88,7 @@ class Woo_Account_Tab_Foo_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-
+        $ajax_url = admin_url('admin-ajax.php');
 		/**
 		 * This function is provided for demonstration purposes only.
 		 *
@@ -100,14 +100,28 @@ class Woo_Account_Tab_Foo_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+        wp_register_script(
+            $this->plugin_name,
+            plugin_dir_url( __FILE__ ) . 'js/woo-account-tab-foo-public.js',
+            array('jquery'),
+            '1.0',
+            true
+        );
 
-		wp_enqueue_script(
+        wp_localize_script(
+            $this->plugin_name,
+            'ajax_url',
+            $ajax_url
+        );
+
+        wp_enqueue_script($this->plugin_name);
+		/*wp_enqueue_script(
 		    $this->plugin_name,
             plugin_dir_url( __FILE__ ) . 'js/woo-account-tab-foo-public.js',
             array( 'jquery' ),
             $this->version,
             false
-        );
+        );*/
 
 	}
 
@@ -155,7 +169,7 @@ class Woo_Account_Tab_Foo_Public {
                         <span class="description"><?php _e("More than one term, separate it by a comma"); ?></span>
                     </td>
                     <td>
-                        <button type="submit"><?php _e('Save!') ?></button>
+                        <button type="submit" class="woo_foo_btn"><?php _e('Save!') ?></button>
                     </td>
                 </tr>
             </table>
@@ -189,7 +203,7 @@ class Woo_Account_Tab_Foo_Public {
         return $title;
     }
 
-    public function account_tab()
+/*    public function account_tab()
     {
 
         $ajax_url = admin_url('admin-ajax.php');
@@ -203,7 +217,7 @@ class Woo_Account_Tab_Foo_Public {
 //    wp_register_script( 'woo_account_tab', plugins_url('woo-account-tab.js',__FILE__ ));
         wp_enqueue_script('woo_account_tab');
 
-    }
+    }*/
 
     /**
      * AJAX Callback
@@ -211,17 +225,18 @@ class Woo_Account_Tab_Foo_Public {
      */
     public function modifications_callback()
     {
+//        print_r('ftp');
 
         $transient_id = 'my_custom_transient_id_' . get_current_user_id();
 
-        // Ensure we have the data we need to continue
+        /*// Ensure we have the data we need to continue
         if (!isset($_POST) || empty($_POST) || !is_user_logged_in()) {
 
             // If we don't - return custom error message and exit
             header('HTTP/1.1 400 Empty POST Values');
             echo 'Could Not Verify POST Values.';
             exit;
-        }
+        }*/
 
         // remove old cache
         delete_transient($transient_id);
@@ -275,7 +290,8 @@ class Woo_Account_Tab_Foo_Public {
         $response_array = array('data' => $result_array, 'fragment' => array('element' => 'example-transient', 'content' => $html_code));
 
         wp_send_json($response_array);
-        exit;
+        die;
+//        exit;
     }
 
     public function custom_register_widgets()
