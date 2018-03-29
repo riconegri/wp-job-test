@@ -37,7 +37,6 @@ jQuery('document').ready(function ($) {
         } else {
             button.disabled = true;
         }
-        console.log($('#search-woo-account').val())
     });
     // Form submission listener
     $('#um_form').submit(function (e) {
